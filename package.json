@@ -9,6 +9,6 @@
   "author": "",
   "license": "artistic 2.0",
   "dependencies": {
-    "tape": "^3.0.0"
+    "tape": "^3.0.1"
   }
 }
