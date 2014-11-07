@@ -2,6 +2,9 @@
 
 var test = require('tape');
 
+var nextTick = typeof setImmediate !== 'undefined' ?
+  setImmediate : process.nextTick;
+
 function noop(){}
 
 module.exports = function (opts) {
@@ -28,7 +31,7 @@ module.exports = function (opts) {
   function runTest(name, next, onEnd) {
     test(testPrefix + '\n## ' + name, function (assert) {
 
-      setImmediate(function() { next.call(harness.locals, assert) });
+      nextTick(function() { next.call(harness.locals, assert) });
 
       var tmout = setTimeout(function () {
         assert.fail('timed out');
@@ -48,7 +51,7 @@ module.exports = function (opts) {
     harness.tests.push({name: name, next: next});
     if (!invoked) {
       invoked = true;
-      setImmediate(function() {
+      nextTick(function() {
         runTest('setup', harness.setup);
         harness.tests.forEach(function(elem) {
           runTest(elem.name, elem.next);
